@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background-color: #f3f3f3;
+}
+.appbar{
+  font-family: "Irish Grover";
+}
+.shadow{
+  box-shadow: 0px 0px 10px 1px  black;
+}
+.main{
+  
+  margin: 50px auto;
+}
+.Posts{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 30px;
+}
+
+.mainImg{
+  border-radius: 0.75rem 0.75rem 0px 0px;
+}
+.createrInfo{
+  z-index: 2;
+}
+
+.editPost form input{
+  margin: 5px;
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  font-family: "Roboto";
+}
+.formBorder{
+  border: 1px solid grey;
+}
+.editPost form h1{
+  font-family: "Irish Grover";
+}
+.button{
+  padding: 10px; 
+  border-radius: 5px;
+  color: white;
+  font-family: "Roboto";
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
