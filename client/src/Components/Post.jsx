@@ -7,7 +7,7 @@ function Post(prop) {
   const dispatch = useDispatch()
 
   return (
-    <div className="post shadow w-[320px] h-[380px] rounded-xl relative">
+    <div className="post shadow w-[320px] h-[380px] rounded-xl relative bg-[#fff]">
     <div>
       <img
         src={prop.post.selectedFile}
