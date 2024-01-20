@@ -1,32 +1,64 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice , createAsyncThunk} from '@reduxjs/toolkit'
+import {createPost, removePost,editPost} from  '../../api/PostApi.js'
+import axios from 'axios'
 
-const initialState = {posts:[{
-    title : "UnderWater surfing",
-    message : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum quam deleniti minima.',
-    creater:'Yash',
-    tags:['#cool','#fool'],
-    selectedFile:'/diving image.jpeg',
-}]}
+
+
+const url = 'http://localhost:3000/post'
+
+export const fetchPosts = createAsyncThunk('fetchPosts',async()=>{
+    const response = await axios.get('http://localhost:3000/post')
+    return  response;
+})
+
+const initialState = {
+    posts:[{
+        _id : '',
+        createdAt : '',
+        creater :'',
+        likeCount : 0,
+        message : '',
+        selectedFile : '',
+        tags : [''],
+        _v : 0,
+    }],
+}
 
 export const PostSlice = createSlice({
     name : "post",
     initialState,
     reducers : {
         addPost:(state,action)=>{
-            
+            const data = action.payload
+            createPost(data)
+
         },
         deletePost:(state,action)=>{
-
+           const res = removePost(action.payload)
+           return res
         },
-        editPost:(state,action)=>{
-
+        updatePost:(state,action)=>{
+            const id = action.payload._id
+            const post = action.payload
+            const res = editPost(id,post)
         },
-        getPost:(state,action)=>{
-
+        getPost:async(state,action)=>{
+        
         }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(fetchPosts.fulfilled,(state,action)=>{
+            state.posts = action.payload.data;
+        })
+        builder.addCase(fetchPosts.rejected,(state,action)=>{
+            console.log("rejected")
+        })
+        builder.addCase(fetchPosts.pending,(state,action)=>{
+            console.log("pending")
+        })
     }
 })
 
-export const {addPost,deletePost,editPost,getPost} = PostSlice.actions
+export const {addPost,deletePost,updatePost,getPost} = PostSlice.actions
 
 export default PostSlice.reducer
