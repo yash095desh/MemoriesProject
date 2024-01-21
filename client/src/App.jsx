@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import Appbar from "./Components/Appbar";
 import Post from "./Components/Post";
 import Form from "./Components/Form";
-import { useDispatch ,useSelector} from "react-redux";
-import { fetchPosts } from "./features/Post/postSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPost } from "./features/postSlice";
+
 
 
 
 
 
 function App() {
+  const [currentId ,setcurrentId]=useState('')
+  const data = useSelector((state)=>state.posts)
+  const dispatch = useDispatch()
 
- const [updateId,setUpdateId]=useState('') 
-
-const dispatch = useDispatch()
-const data = useSelector((state)=>state.posts)
-useEffect(()=>{
-  dispatch(fetchPosts())
-},[dispatch,updateId])
-
-
+  useEffect(()=>{
+    dispatch(fetchPost())
+  },[])
 
   return (
    <div className=" w-full flex justify-center items-center">
@@ -29,13 +27,13 @@ useEffect(()=>{
         {/* POST */}
         <div className="Posts">
           {data.map((post)=>{
-            return <Post key={post._id} post={post} setUpdateId={setUpdateId}  />
+            return <Post post={post} key={post._id} setcurrentId={setcurrentId}/>
           })}
        
         </div>
 
         {/* EditPost */}
-        <Form updateId={updateId} setUpdateId={setUpdateId}/>
+        <Form currentId={currentId} setcurrentId={setcurrentId} />
       </div>
     </div>
    </div>
