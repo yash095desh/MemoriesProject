@@ -24,17 +24,17 @@ export const EditPost = async(req,res)=>{
     try {
         const {id} = req.params
         const post =req.body;
-        const response = await PostMessage.findByIdAndUpdate(id,post)
+        const response = await PostMessage.findByIdAndUpdate(id,post,{new:true})
         res.status(201).send(response)
     } catch (error) {
-        
+        console.log(error)
     }
 }
 export const deletePost = async(req,res)=>{
     try {
         const {id} = req.params
         const result = await PostMessage.findByIdAndDelete(id)
-        // PostMessage.findByIdAndDelete(id)
+        res.status(201).send(result)
     } catch (error) {
         console.log(err.message)
     }

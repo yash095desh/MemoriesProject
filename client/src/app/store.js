@@ -1,6 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit'
-import PostSlice from '../features/Post/postSlice'
+import {PostReducer} from '../features/postSlice.js'
 
-export const store = configureStore({
-    reducer : PostSlice,
+const store = configureStore({
+    reducer : PostReducer,
 })
+
+export default store 

@@ -1,18 +1,19 @@
 import React, { useState ,useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { addPost ,fetchPosts,updatePost} from '../features/Post/postSlice';
+import {  useDispatch, useSelector } from 'react-redux'
+import { createPost, updatePost } from '../features/postSlice'
 
 
-function Form({updateId,setUpdateId}) {
+
+function Form({currentId,setcurrentId}) {
   const dispatch = useDispatch()
   const [Post,setPost]=useState({creater:'',title:'',message:'',tags:[],selectedFile:''})
-  const post = useSelector((state)=>updateId?(state.posts.find((post)=>post._id == updateId)):null)
+  const postdata = useSelector((state)=>currentId?state.posts.find((post)=>post._id == currentId):null)
 
   useEffect(()=>{
-    if(post){
-      setPost(post)
-    }
-  },[post])
+    if(postdata){
+      setPost(postdata)
+    }  
+  },[currentId])
 
   const convertBase64 = (e)=>{
     const file = e.target.files[0]
@@ -23,53 +24,47 @@ function Form({updateId,setUpdateId}) {
       setPost((prev)=>({...prev,selectedFile:reader.result}))
     }
   }
-  const handleClick = (e)=>{
+
+  const handleSubmit=(e)=>{
     e.preventDefault()
-    if(updateId == '' ){
-      dispatch(addPost(Post))
+    if(!postdata){
+      dispatch(createPost(Post))
     }
     else{
       dispatch(updatePost(Post))
-      setUpdateId('')
+      setcurrentId('')
     }
     setPost({creater:'',title:'',message:'',tags:[],selectedFile:''})
-    dispatch(fetchPosts())
-   
   }
+  
   
   return (
     <div className="editPost mx-5   ">
-          <form action="" className="flex flex-col  mx-5 p-5 rounded-xl shadow" onSubmit={(e)=>{handleClick(e)}}>
+          <form action="" className="flex flex-col  mx-5 p-5 rounded-xl shadow" onSubmit={handleSubmit} >
             <h1 className="font-[600] text-[25px]">Create A Memory</h1>
-            <input type="text" placeholder="Creater" className="formBorder" required value={Post.creater} onChange={(e)=>{setPost((prev)=>({...prev,creater:e.target.value}))}} />
-            <input type="text" placeholder="Title" className="formBorder"  required value={Post.title} onChange={(e)=>{
-            setPost((prev)=>({...prev , title:e.target.value}))
-            }}/>
+            <input type="text" placeholder="Creater" className="formBorder" value={Post.creater} required  onChange={(e)=>{setPost((prev)=>({...prev,creater:e.target.value}))}} />
+            <input type="text" placeholder="Title" className="formBorder" value={Post.title}  required  onChange={(e)=>{setPost((prev)=>({...prev,title:e.target.value}))}}/>
             <textarea
               name=""
               id=""
               cols="5"
               rows="5"
               placeholder="Message"
-              className="m-[5px] p-[8px] rounded-[5px] formBorder"
               value={Post.message}
+              className="m-[5px] p-[8px] rounded-[5px] formBorder"
+              onChange={(e)=>{setPost((prev)=>({...prev,message:e.target.value}))}}
               required
-              onChange={(e)=>{
-                setPost((prev)=>({...prev,message:e.target.value}))
-              }}
+             
             ></textarea>
             <input
               type="text"
               placeholder="Tag(comma seperated)"
               className="formBorder"
-              value={Post.tags.toString()}
               required
-              onChange={(e)=>{
-                const str = e.target.value 
-                setPost((prev)=>({...prev,tags:str.split(",")}))
-              }}
+             value={(Post.tags).toString()}
+             onChange={(e)=>{setPost((prev)=>({...prev,tags:(e.target.value).split(",")}))}}
             />
-            <input type="file" name="" id=""   required onChange={(e)=>{convertBase64(e)}} />
+            <input type="file" name="" id="" onChange={(e)=>convertBase64(e)} />
             <button className="button bg-blue-900 mb-4" type='submit'>
               Submit<span className="material-symbols-outlined pl-2">send</span>
             </button>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import {useDispatch} from "react-redux"
-import { deletePost, fetchPosts } from '../features/Post/postSlice'
+import { deletePost } from '../features/postSlice'
+import { useDispatch } from 'react-redux'
+
 
 
 function Post(prop) {
@@ -11,7 +12,7 @@ function Post(prop) {
     <div>
       <img
         src={prop.post.selectedFile}
-        alt=""
+        alt="image"
         className=" absolute w-full h-[50%] z-[0] mainImg "
       />
       {/* Upperdiv */}
@@ -20,9 +21,7 @@ function Post(prop) {
           <h2 className="font-[700] text-[20px]">{prop.post.creater}</h2>
           <p className="text-[15px] font-[500]">2 months ago</p>
         </div>
-        <button onClick={()=>{
-          prop.setUpdateId(prop.post._id)
-          }}><span className="material-symbols-outlined cursor-pointer">more_horiz</span></button>
+        <button onClick={()=>prop.setcurrentId(prop.post._id)}><span className="material-symbols-outlined cursor-pointer">more_horiz</span></button>
       </div>
     </div>
     {/* LowerDiv */}
@@ -35,13 +34,8 @@ function Post(prop) {
         {prop.post.message}
       </p>
       <div className="flex justify-between items-center mt-9 p-2">
-        <h2 className='flex justify-center items-center'><span className="material-symbols-outlined pr-2">thumb_up</span>{prop.post.likeCount}</h2>
-        <button   onClick={()=>{
-                const id = prop.post._id
-               dispatch(deletePost(id))
-               dispatch(fetchPosts())
-                
-          }}>  <span className="material-symbols-outlined cursor-pointer" >delete</span></button>
+        <h2 className='flex justify-center items-center'><span className="material-symbols-outlined pr-2">thumb_up</span>0</h2>
+        <button onClick={()=>dispatch(deletePost(prop.post._id))} >  <span className="material-symbols-outlined cursor-pointer" >delete</span></button>
       </div>
     </div>
   </div>
